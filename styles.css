@@ -2,15 +2,14 @@ body {
     margin: 0;
     padding: 0;
 }
-
 .flashcards {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 0px;
 }
 .flashcard {
-    width: 7.3cm;
-    height: 4.727cm;
+    width: 7cm;
+    height: 4.95cm;
     position: relative;
 }
 .flashcard .front, .flashcard .back {
@@ -53,6 +52,6 @@ body {
     font-size: 0.8em;
 }
 @media print {
-    @page { margin: 0; }
+    @page { size: A4; margin: 0; }
     body { margin: 0cm; }
   }
