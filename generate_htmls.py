@@ -1,8 +1,4 @@
-import argparse
-import os
-from header import get_header, footer
-
-google_chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
+from header import header, footer
 
 def parse_text(txt_file):
     data = {"der": [], "die": [], "das": []}
@@ -30,7 +26,7 @@ def parse_text(txt_file):
     return data
 
 
-def english_to_html_flashcards(data, color, n_tiles):
+def english_to_html_flashcards(data, color):
     html_output = ""
 
     # Add flashcards
@@ -43,8 +39,7 @@ def english_to_html_flashcards(data, color, n_tiles):
             </div>
         </div>
         """
-
-    for i in range(len(data), n_tiles):
+    for i in range(len(data), 18):
         html_output += """
         <div class='flashcard'>
             <div class='front' style='background-color: """ + "white" + f""";'>
@@ -52,15 +47,20 @@ def english_to_html_flashcards(data, color, n_tiles):
                 <p class='german-plural'> </p>
             </div>
         </div>
-        """      
+        """        
 
     return html_output
+    # html_output += footer
+    # with open(html_file_path, 'w') as html_file:
+    #     html_file.write(html_output)
+
+    # print(f"HTML code has been written to {html_file_path}")
 
 
+def german_to_html_flashcards(data, color):
+    # html_output = header
 
-def german_to_html_flashcards(data, color, n_tiles):
     html_output = ""
-
     # Add flashcards
     for row in data:
         article, german_noun, german_plural, _  = row
@@ -72,8 +72,8 @@ def german_to_html_flashcards(data, color, n_tiles):
             </div>
         </div>
         """
-
-    for i in range(len(data), n_tiles):
+    
+    for i in range(len(data), 18):
         html_output += """
         <div class='flashcard'>
             <div class='front' style='background-color: """ + "white" + f""";'>
@@ -81,40 +81,27 @@ def german_to_html_flashcards(data, color, n_tiles):
                 <p class='german-plural'> </p>
             </div>
         </div>
-        """      
+        """        
+
+    # html_output += footer
+    # with open(html_file_path, 'w') as html_file:
+    #     html_file.write(html_output)
+
+    # print(f"HTML code has been written to {html_file_path}")
 
     return html_output
 
-colors = {"der": "#a6d1ff", "die": "#ffcccb", "das": "#d0ffbc", "en": "white"}
-paper_sizes = {"A4": {"dims": (210, 297), "tile": (3,6)}, "A5": {"dims": (148, 210), "tile": (2,4)}, "A6": {"dims": (105, 148), "tile": (2,3)}}
-
 if __name__=="__main__":
-    argparser = argparse.ArgumentParser(description='Generate HTML flashcards from a text file')
-    argparser.add_argument('--txt_file', type=str, default="wortschatz.txt")
-    argparser.add_argument('--paper', type=str, default="A4")
+    colors = {"der": "#a6d1ff", "die": "#ffcccb", "das": "#d0ffbc", "en": "white"}
 
-    args = argparser.parse_args()
+    data = parse_text('wortschatz.txt')
 
-    data = parse_text(args.txt_file)
-
-    page_dims = paper_sizes[args.paper]["dims"]
-    tiles = paper_sizes[args.paper]["tile"]
-
-    n_tiles = tiles[0]*tiles[1] 
-    tile_size = (page_dims[0]/tiles[0], page_dims[1]/tiles[1])
-
+    html_output = header
     for type in ["der", "die", "das"]:
-        for cnt, i in enumerate(range(0, len(data[type]), n_tiles)):
-            html_output = get_header(tiles[0], tile_size, args.paper)
-            html_output += german_to_html_flashcards(data[type][i:i+n_tiles], colors[type], n_tiles)
-            html_output += english_to_html_flashcards(data[type][i:i+n_tiles], colors["en"], n_tiles)
-            html_output += footer
+        for cnt, i in enumerate(range(0, len(data[type]), 18)):
+            html_output += german_to_html_flashcards(data[type][i:i+18], colors[type])
+            html_output += english_to_html_flashcards(data[type][i:i+18], colors["en"])
 
-            html_file = "htmls/flashcards_"+args.paper+"_"+str(cnt)+".html"
-            pdf_file = "pdfs/flashcards_"+args.paper+"_"+str(cnt)+".pdf"
-            with open(html_file, 'w') as f:
-                f.write(html_output)
-
-            cmd = f"{google_chrome} --headless --print-to-pdf={pdf_file} --no-margins {html_file}"
-            print(cmd)
-            os.system(cmd)
+    html_output += footer
+    with open("flashcards.html", 'w') as html_file:
+        html_file.write(html_output)
