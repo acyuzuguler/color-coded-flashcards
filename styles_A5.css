@@ -2,15 +2,14 @@ body {
     margin: 0;
     padding: 0;
 }
-
 .flashcards {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     grid-gap: 0px;
 }
 .flashcard {
-    width: 7.3cm;
-    height: 4.727cm;
+    width: 7.4cm;
+    height: 5.25cm;
     position: relative;
 }
 .flashcard .front, .flashcard .back {
@@ -21,7 +20,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 1px solid #ccc;
+    border: 1px solid #ffffff;
     box-sizing: border-box;
 }
 .flashcard .german-single {
@@ -49,10 +48,20 @@ body {
     width: 100%;
     font-weight: normal;
 }
+.flashcard .additional-text {
+    font-family: 'Verdana';
+    font-size: 0.8em;
+    text-align: left;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    font-weight: normal;
+    font-style: italic;
+}
 .article {
     font-size: 0.8em;
 }
 @media print {
-    @page { margin: 0; }
+    @page { size: A5; margin: 0; }
     body { margin: 0cm; }
   }
