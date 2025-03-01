@@ -5,8 +5,7 @@
 To re-generate htmls and pdfs, run:
 
 ```
-python generate_htmls.py
-python generate_pdfs.py
+python generate.py --paper A4
 ```
 
 NOTE: generate_pdfs.py requires Chrome to be installed in your computer. You may need change its path in `generate_pdfs.py` based on your system.
