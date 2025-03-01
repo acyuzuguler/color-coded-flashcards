@@ -155,7 +155,7 @@ if __name__=="__main__":
 
             cnt += 1
 
-    with open("flashcards.pdf", "wb") as fout:
+    with open("flashcards_"+args.paper+".pdf", "wb") as fout:
         merger.write(fout)
 
     os.system("rm -f pdfs/**")
